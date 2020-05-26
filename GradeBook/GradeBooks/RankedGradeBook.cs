@@ -1,7 +1,7 @@
 ﻿using GradeBook.Enums;
 using System;
 using System.Collections.Generic;
-using System.Text;
+using System.Linq;
 
 namespace GradeBook.GradeBooks
 {
@@ -19,36 +19,21 @@ namespace GradeBook.GradeBooks
                 throw new InvalidOperationException();
             }
 
-            var allAverageGrade = new List<double>();
+            var threshold = (int)Math.Ceiling(Students.Count * 0.2);
+            //var grades = Students.OrderByDescending( n => n.AverageGrade ).Select( n => n.AverageGrade).ToList();
+            var grades = new List<double>();
+            Students.ForEach(n => grades.Add(n.AverageGrade));
+            grades.Sort();
+            grades.Reverse();
 
-            Students.ForEach( n => allAverageGrade.Add( n.AverageGrade ) );
-
-            allAverageGrade.Sort();
-            allAverageGrade.Reverse();
-            var sizes = new List<double>()
-            {
-                allAverageGrade.Count * 0.2,
-                (allAverageGrade.Count * 0.4),
-                allAverageGrade.Count * 0.6,
-                allAverageGrade.Count * 0.8
-            };
-
-            for ( int i = 0, position = 0; i < allAverageGrade.Count; i++, position++ )
-            {
-                if( allAverageGrade[i] < averageGrade )
-                {
-                    position = i;
-                    if ( position >= sizes[0] )
-                        return 'A';
-                    else if ( sizes[0] > position && position > sizes[1] )
-                        return 'B';
-                    else if ( sizes[1] > position && position > sizes[2] )
-                        return 'C';
-                    else if ( sizes[2] > position && position > sizes[3] )
-                        return 'D';
-                    break;
-                }
-            }
+            if ( grades[threshold - 1] <= averageGrade )
+                return 'A';
+            else if ( grades[(threshold * 2) - 1] <= averageGrade )
+                return 'B';
+            else if ( grades[(threshold * 3) - 1] <= averageGrade )
+                return 'C';
+            else if ( grades[(threshold * 4) - 1] <= averageGrade )
+                return 'D';
 
             return 'F';
         }
