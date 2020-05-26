@@ -40,11 +40,11 @@ namespace GradeBook.GradeBooks
                     position = i;
                     if ( position >= sizes[0] )
                         return 'A';
-                    else if ( sizes[0] < position && position < sizes[1] )
+                    else if ( sizes[0] > position && position > sizes[1] )
                         return 'B';
-                    else if ( sizes[1] < position && position < sizes[2] )
+                    else if ( sizes[1] > position && position > sizes[2] )
                         return 'C';
-                    else if ( sizes[2] < position && position < sizes[3] )
+                    else if ( sizes[2] > position && position > sizes[3] )
                         return 'D';
                     break;
                 }
